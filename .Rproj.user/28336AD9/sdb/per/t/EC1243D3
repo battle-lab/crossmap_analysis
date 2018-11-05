@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "Data: \n  - GTEx expression: download from gtex portal\n  - process gtex expression file?\n  - Cross-mappability: download from box\n\n\nData process:\n - convert gtex file to txt format\n - correct gtex co-expression\n - gtex genotype process?\n - \n\n- explore distribution\n- background percentage of cross-mappability\n- crossmap eqtl in top\n  - regular\n  - protein coding genes\n  - mappability >= 0.8\n  - protein-coding with mappabiity >= 0.8\n  - PANCAN\n- Random #eqtl\n- composition of cross-map\n- eqtl replication code\n\n- random co-expression \n- co-expression without genes in same family\n- co-expression at top\n",
+    "created" : 1541072754871.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3754443362",
+    "id" : "EC1243D3",
+    "lastKnownWriteTime" : 1541125430,
+    "last_content_update" : 1541125430703,
+    "path" : "~/github/crossmap_analysis/todo.txt",
+    "project_path" : "todo.txt",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "text"
+}

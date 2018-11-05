@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(data.table)\nlibrary(argparser)\n\nargs <- arg_parser('program')\nargs <- add_argument(args, '-cross', \n                     help='cross-mappability file',\n                     default='/work-zfs/abattle4/lab_data/annotation/mappability_hg19_gencode19/hg19_cross_mappability_strength.txt')\nargs <- add_argument(args, '-o',\n                     help='output file (pdf)',\n                     default='results/explore_cross_mappability_hg19.pdf')\n\nargv <- parse_args(args)\ncross_map_fn = argv$cross\nplt_fn <- argv$o\n\n\n### read cross-map data\ncross_map = fread(input = cross_map_fn, sep = '\\t', header = F, stringsAsFactors = F, data.table = F, quote = \"\")\ndim(cross_map)\nhead(cross_map)\n\nsummary(cross_map$V3)\nsummary(cross_map$V4)\n\n### distribution of strength\npdf(plt_fn)\nhist(cross_map$V3, breaks = 50, xlab = \"Cross-mappability\", main = \"\")\nhist(log2(cross_map$V3), breaks = 50, xlab = \"log2(Cross-mappability)\", col='gray90', main = \"\")\ndev.off()\n",
+    "created" : 1541126446984.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1944453137",
+    "id" : "9100B782",
+    "lastKnownWriteTime" : 1524846961,
+    "last_content_update" : 1524846961,
+    "path" : "~/github/misc/cross_mappability/explore_cross_mappability.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

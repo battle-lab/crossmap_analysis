@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#### specification\n# put the directory of this repository here\nprog_dir=\"\"\n# put your directory where all analysis data and results will be stored\nanalysis_dir=\"\"\n\n",
+    "created" : 1541123189104.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2825046892",
+    "id" : "FC95331C",
+    "lastKnownWriteTime" : 1541123320,
+    "last_content_update" : 1541123320666,
+    "path" : "~/github/crossmap_analysis/pipeline_process_data.sh",
+    "project_path" : "pipeline_process_data.sh",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "sh"
+}
