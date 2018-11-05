@@ -17,6 +17,9 @@
 ### note-4: some scripts use slurm jobs. please wait 
 ### for slurm jobs to complete before moving to next steps.
 ### also, you may need to edit memory/time to run each job.
+### if you do not have slurm, please replace 'sbatch' by 'sh'
+### in this script to run jobs locally (and ignore harmless 
+### errors).
 ###
 ### note-5: try to avoid spaces (other characters) in 
 ### file paths, that need to be quoted in shell script.
