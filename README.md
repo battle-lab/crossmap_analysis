@@ -9,6 +9,11 @@ Note: the pipeline was tested using R v3.5.1 in Linux operating system on slurm 
 ### Data
 Data required to run the analyses can be downloaded from [here](https://jh.box.com/s/p5jsdb65lu3z53eifupdatkmyx0upmoy). Note: some data are not publicly sharable. But you will be able to run the pipeline even without those data. In that case, the pipeline will use intermediate results stored in the data folder.
 
+Note:
+* GTEx v7 processed expression and covariate data were downloaded from the [GTEx portal](https://gtexportal.org/home/datasets)
+* GTEx genotype data are available from dbGap (accession: phs000424.v7.p2)
+* DGN data are available through the NIMH Center for Collaborative Genomic Studies on Mental Disorders. Instructions to aceess data are available [here](https://www.nimhgenetics.org/access_data_biomaterial.php), and inquiries should reference the “Depression Genes and Networks study (D. Levinson, PI)”.
+
 ### How to run analyses?
 The main script to run all analyses is [manuscript_pipeline.sh](https://github.com/battle-lab/crossmap_analysis/blob/master/manuscript_pipeline.sh). Please configure variables in the beginning (configuration section) of the script, and execute the commands one by one on the terminal of a linux computer manually (by copying and pasting).
 
