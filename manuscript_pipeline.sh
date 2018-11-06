@@ -6,33 +6,41 @@
 ### from the link given in the readme file in github.
 ###
 ### note-2: if you configure the input/output variables 
-### at the begining of this script, everything else should
-### run automatically, unless any memory/disk errors occur.
+### at the begining of this script in the configuration section, 
+### everything else should run automatically, unless any 
+### memory/disk errors occur.
 ###
 ### note-3: if you do not have genotype data, or if you want
 ### to avoid genotype related analysis (which are generally 
 ### slow), set run_genotype_analysis=false. otherwise set
 ### run_genotype_analysis=true
 ###
-### note-4: some scripts use slurm jobs. please wait 
+### note-4: if you do not have dgn data, or if you want
+### to avoid dgn related analysis, please set 
+### run_dgn_analysis=false. otherwise set
+### run_dgn_analysis=true
+###
+### note-5: some scripts use slurm jobs. please wait 
 ### for slurm jobs to complete before moving to next steps.
 ### also, you may need to edit memory/time to run each job.
 ### if you do not have slurm, please replace 'sbatch' by 'sh'
 ### in this script to run jobs locally (and ignore harmless 
 ### errors).
 ###
-### note-5: try to avoid spaces (other characters) in 
+### note-6: try to avoid spaces (other characters) in 
 ### file paths, that need to be quoted in shell script.
 ###
 #############################################################
 
+##################### configuration section starts here #####################
 #### specification
 # put the directory of this repository here
 crossmap_analysis_prog_dir="/work-zfs/abattle4/ashis/prog/misc/cross_mappability"
 # put your directory where all analysis data and results will be stored
 manuscript_analysis_dir="/work-zfs/abattle4/ashis/progres/misc/cross_mappability/manuscript_analysis"
 
-run_genotype_analysis=false  # true to run all analysis, false not to avoid genotype related analysis
+run_genotype_analysis=false  # true to run all analysis, false to avoid genotype related analysis
+run_dgn_analysis=false       # true to run dgn analysis, false not to run
 
 gtex_expr_dir="/work-zfs/abattle4/ashis/progres/misc/cross_mappability/manuscript_data/GTEx_Analysis_v7_eQTL_expression_matrices"
 cov_dir="/work-zfs/abattle4/ashis/progres/misc/cross_mappability/manuscript_data/GTEx_Analysis_v7_eQTL_covariates"
@@ -51,12 +59,15 @@ hgnc_gene_family_fn="/work-zfs/abattle4/ashis/progres/misc/cross_mappability/man
 
 intermediate_data_dir="/work-zfs/abattle4/ashis/progres/misc/cross_mappability/manuscript_data/intermediate_inputs"
 
-dgn_expr_fn="/work-zfs/abattle4/ashis/progres/misc/cross_mappability/manuscript_data/dgn/trans_data.txt"
+dgn_expr_fn="/work-zfs/abattle4/lab_data/dgn/data_used_for_eqtl_study/trans_data.txt"
 dgn_geno_fn="/work-zfs/abattle4/ashis/progdata/dgn/genotype/final_completed_genotype.txt"
-dgn_snp_annot_fn="/work-zfs/abattle4/ashis/progres/misc/cross_mappability/manuscript_data/dgn/snp_annot.txt"
-dgn_cov_fn="/work-zfs/abattle4/ashis/progres/misc/cross_mappability/manuscript_data/dgn/Biological_and_hidden_factors_cov.txt"
+dgn_snp_annot_fn="/work-zfs/abattle4/ashis/progdata/dgn/genotype/snp_annot.txt"
+dgn_cov_fn="/work-zfs/abattle4/lab_data/dgn/covariates/Biological_and_hidden_factors.txt"
+
 
 pancan_eqtl_fn="/work-zfs/abattle4/ashis/progres/misc/cross_mappability/manuscript_data/pancan/trans_eQTLs_all_re.txt"
+
+##################### configuration section ends here #####################
 
 root_in_dir="$manuscript_analysis_dir/data"
 root_out_dir="$manuscript_analysis_dir/analysis"
@@ -997,24 +1008,28 @@ fi
 ########## process dgn expression #############
 if [ ! -d $processed_dgn_data_dir ]; then mkdir $processed_dgn_data_dir; fi
 cd "$crossmap_analysis_prog_dir"
-Rscript process_dgn_data.R -expr "$dgn_expr_fn" \
-                           -gene_annot "$gene_annot_fn" \
-                           -o "$processed_dgn_expr_fn"
-
+if $run_dgn_analysis
+then
+  Rscript process_dgn_data.R -expr "$dgn_expr_fn" \
+                             -gene_annot "$gene_annot_fn" \
+                             -o "$processed_dgn_expr_fn"
+fi
 ########## co-expression in dgn ########## 
 if [ ! -d $dgn_random_corr_dir ]; then mkdir $dgn_random_corr_dir; fi
 
-Rscript random_cor_bet_cross_mappable_pairs.R -cross "$crossmap_fn" \
-                                              -expr "$processed_dgn_expr_fn" \
-                                              -map "$mappability_fn" \
-                                              -sym FALSE \
-                                              -n0 10000 \
-                                              -n 1000 \
-                                              -q "" \
-                                              -sep "1,2,5,10,20,50,100,200,300,400,500,1e8" \
-                                              -o  "$dgn_random_corr_fn" \
-                                              2>&1 | tee "$dgn_random_corr_fn.log"
-                                              
+if $run_dgn_analysis
+then
+  Rscript random_cor_bet_cross_mappable_pairs.R -cross "$crossmap_fn" \
+                                                -expr "$processed_dgn_expr_fn" \
+                                                -map "$mappability_fn" \
+                                                -sym FALSE \
+                                                -n0 10000 \
+                                                -n 1000 \
+                                                -q "" \
+                                                -sep "1,2,5,10,20,50,100,200,300,400,500,1e8" \
+                                                -o  "$dgn_random_corr_fn" \
+                                                2>&1 | tee "$dgn_random_corr_fn.log"
+fi
 
 ########## eQTL replication in dgn ########## 
 gtex_blood_eqtl_fn="$eqtl_crossmap_dir/trans_eqtl_cross_chr/Whole_Blood_cross_chr_trans_eqtl_all_p_1e-5.crossmap.txt"
@@ -1027,14 +1042,17 @@ if [ ! -d "$replication_dir/trans_eqtl_cross_chr" ]; then mkdir "$replication_di
 cd $crossmap_analysis_prog_dir
 if $run_genotype_analysis
 then
-  Rscript replicate_eqtls_in_dgn.R -eqtl "$gtex_blood_eqtl_fn" \
-                                   -expr "$dgn_expr_fn" \
-                                   -geno "$dgn_geno_fn" \
-                                   -cov "$dgn_cov_fn" \
-                                   -snp_annot "$dgn_snp_annot_fn" \
-                                   -gene_annot "$gene_annot_fn" \
-                                   -o "$dgn_replication_fn" \
-                                   2>&1 | tee "$dgn_log_fn"
+  if $run_dgn_analysis
+  then
+    Rscript replicate_eqtls_in_dgn.R -eqtl "$gtex_blood_eqtl_fn" \
+                                     -expr "$dgn_expr_fn" \
+                                     -geno "$dgn_geno_fn" \
+                                     -cov "$dgn_cov_fn" \
+                                     -snp_annot "$dgn_snp_annot_fn" \
+                                     -gene_annot "$gene_annot_fn" \
+                                     -o "$dgn_replication_fn" \
+                                     2>&1 | tee "$dgn_log_fn"
+  fi
 fi
 
 ########## replication in gtex ########## 
