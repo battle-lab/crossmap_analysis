@@ -7,10 +7,10 @@ This repository contains analyses related to cross-mappability.
 Note: the pipeline was tested using R v3.5.1 in Linux operating system on slurm computation clusters.
 
 ### Data
-Data required to run the analyses can be downloaded from [here](https://jh.box.com/s/p5jsdb65lu3z53eifupdatkmyx0upmoy). Note: some data are not publicly sharable. But you will be able to run the pipeline even without those data. In that case, the pipeline will use intermediate results stored in the data folder.
+Data required to run the analyses can be downloaded from [here](https://doi.org/10.6084/m9.figshare.7309625). Note: some data are not publicly sharable. But you will be able to run the pipeline even without those data. In that case, the pipeline will use intermediate results stored in the data folder.
 
 Note:
-* GTEx v7 processed expression and covariate data were downloaded from the [GTEx portal](https://gtexportal.org/home/datasets)
+* GTEx v7 [processed expression](https://storage.googleapis.com/gtex_analysis_v7/single_tissue_eqtl_data/GTEx_Analysis_v7_eQTL_expression_matrices.tar.gz) and [covariate data](https://storage.googleapis.com/gtex_analysis_v7/single_tissue_eqtl_data/GTEx_Analysis_v7_eQTL_covariates.tar.gz) were downloaded from the [GTEx portal](https://gtexportal.org/home/datasets)
 * GTEx genotype data are available from dbGap (accession: phs000424.v7.p2)
 * DGN data are available through the NIMH Center for Collaborative Genomic Studies on Mental Disorders. Instructions to aceess data are available [here](https://www.nimhgenetics.org/access_data_biomaterial.php), and inquiries should reference the “Depression Genes and Networks study (D. Levinson, PI)”.
 
