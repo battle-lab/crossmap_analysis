@@ -208,10 +208,18 @@ pairwise_cor_func = function(g1, g2){
 if(length(quantile_separators_values) > 0){
   quantiles = sort(unique(c(quantile_separators_values, 1)))
 } else {
-  quantiles = sort(c(2000/n_cross_map, seq(0.1,0.9,0.1), 0.95, 1, (n_cross_map-c(2e3,4e3,6e3,8e3,10e3,15e3,25e3,50e3,100e3))/n_cross_map))
+  #quantiles = sort(c(2000/n_cross_map, seq(0.1,0.9,0.1), 0.95, 1, (n_cross_map-c(2e3,4e3,6e3,8e3,10e3,15e3,25e3,50e3,100e3))/n_cross_map))
+  right_quantiles = c((n_cross_map-c(2e3,4e3,6e3,8e3,10e3,15e3,25e3,50e3,100e3))/n_cross_map,1)
+  left_quantiles = c(2000/n_cross_map, seq(0.1,0.9,0.1), 0.95)
+  left_quantiles = left_quantiles[left_quantiles<min(right_quantiles)]
+  quantiles = sort(unique(c(left_quantiles, right_quantiles)))
 }
 
 qvals = quantile(cross_map$V3, probs = quantiles)
+qvals_selected = !duplicated(qvals)
+qvals = qvals[qvals_selected]
+quantiles = quantiles[qvals_selected]
+
 n_pairs_quantiles <- NULL
 quantile_sampled_cross_map_list <- lapply(0:length(qvals), function(qidx){
   if(qidx==0){
