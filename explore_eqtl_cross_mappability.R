@@ -20,15 +20,25 @@ gene_types = c("protein_coding", "pseudogene", "antisense", "lincRNA",  "3prime_
                "IG_V_gene", "IG_V_pseudogene", "miRNA", "misc_RNA", "Mt_rRNA", 
                "Mt_tRNA", "polymorphic_pseudogene", "processed_transcript",  "rRNA", "sense_intronic", 
                "sense_overlapping", "snoRNA", "snRNA", "TR_C_gene", "TR_D_gene", 
-               "TR_J_gene", "TR_J_pseudogene", "TR_V_gene", "TR_V_pseudogene")
+               "TR_J_gene", "TR_J_pseudogene", "TR_V_gene", "TR_V_pseudogene",
+               "transcribed_unprocessed_pseudogene", "unprocessed_pseudogene", "processed_pseudogene", "transcribed_processed_pseudogene",
+               "IG_pseudogene", "transcribed_unitary_pseudogene", "unitary_pseudogene", "scaRNA", 
+               "3prime_overlapping_ncRNA", "bidirectional_promoter_lncRNA", "scRNA", "sRNA",
+               "ribozyme", "vaultRNA", "non_coding", "macro_lncRNA",
+               "TEC" )
+
 color_opts = c('palegreen', 'bisque3', 'lightsalmon1', 'deepskyblue', 'tan1', 
                'paleturquoise1', 'lavenderblush3', 'lightsteelblue1', 'orchid', 'cornsilk4', 
                'lightseagreen', 'burlywood3', 'palevioletred1', 'bisque1', 'brown', 
                'darkolivegreen2', 'bisque4', 'mediumpurple2', 'palevioletred3', 'salmon3', 
                'plum1', 'tomato', 'violet', 'wheat4', 'slategray3', 
-               'rosybrown1', 'cornsilk4', 'olivedrab3', 'lightslategray')
+               'rosybrown1', 'cornsilk4', 'olivedrab3', 'lightslategray',
+               'gray40', 'gray48', 'gray55', 'gray72',
+               'gray80', 'gray87', 'gray32', 'lightcoral',
+               'pink1', 'cadetblue2', 'azure3', 'lightblue',
+               'plum', 'ivory2', 'lightcyan', 'lavenderblush',
+               'orchid4')
 
-# additional colors: 'lightcoral', 'pink1', 'cadetblue2', 'azure3', 'lightblue', 'orchid4', 'plum'
 
 stopifnot(length(gene_types) == length(color_opts))
 names(color_opts) = gene_types
